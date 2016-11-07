@@ -1,5 +1,6 @@
 
 local wordSet = require "wordSet"
+local util = require "util"
 
 function love.load()
   g = love.graphics
@@ -55,13 +56,4 @@ end
 function drawCurrentWord()
   g.setColor(100, 140, 240)
   g.printf(wordSet.currentWord, (screenWidth / 2) - 30, screenHeight / 4, screenWidth, 'left', 0, 2, 2)
-end
-
--- util
-function length(t)
-  local count = 0
-  for k in pairs(t) do
-    count = count + 1
-  end
-  return count
 end
