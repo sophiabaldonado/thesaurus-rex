@@ -13,6 +13,11 @@ function love.load()
   gameOver = false
   replayButton = button:new("Replay", 'left')
   reviewButton = button:new("Review", 'right')
+  reviewReplayButton = button:new("Replay", 'bottom')
+
+  reviewScreen = false
+  round = 0
+  playedWords = {}
 
   startRound()
 end
@@ -20,8 +25,15 @@ end
 function startRound()
   resetTime()
   resetWords()
+  resetStats()
+end
+
+function resetStats()
   totalScore = 0
   gameOver = false
+  reviewScreen = false
+  round = 1
+  playedWords = {}
 end
 
 function resetTime()
@@ -37,7 +49,19 @@ function resetWords()
 end
 
 function love.draw()
-  if gameOver then
+  if reviewScreen then
+    for k, v in pairs(playedWords) do
+      local roundSummary = v.current.." "..v.selected
+
+      if v.match == true then
+        g.setColor(200, 200, 200, 150)
+      else
+        g.setColor(100, 100, 100, 150)
+      end
+       g.printf(roundSummary, 0, 100 + (15 * k), screenWidth, 'center')
+       drawLostButtons()
+    end
+  elseif gameOver then
     g.setColor(100, 140, 240)
     g.printf("GAME OVER", -screenWidth / 2, 200, screenWidth, 'center', 0, 2, 2)
     g.printf(totalScore, -screenWidth / 2, 250, screenWidth, 'center', 0, 2, 2)
@@ -67,22 +91,27 @@ function love.mousepressed(x, y, button, istouch)
       print("correct!")
       addPoints()
       adjustTime(timeToAdd)
+      addToPlayedWords(clickedButton.word)
     elseif clickedButton.word == 'Replay' then
       print('replay')
       startRound()
     elseif clickedButton.word == 'Review' then
       print('review')
+      reviewScreen = true
     else
       print("incorrect!")
       adjustTime(timeToSubtract)
+      addToPlayedWords(clickedButton.word)
     end
-    -- startRound()
+    round = round + 1
     resetWords()
   end
 end
 
 function findClickedButton(x, y)
-  if gameOver then
+  if reviewScreen then
+    buttons = { reviewReplayButton }
+  elseif gameOver then
     buttons = { replayButton, reviewButton }
   end
   for i, v in ipairs(buttons) do
@@ -119,12 +148,19 @@ end
 
 function drawLostButtons()
   g.setColor(255, 255, 255)
-  g.rectangle('fill', replayButton.x, replayButton.y, replayButton.width, replayButton.height)
-  g.rectangle('fill', reviewButton.x, reviewButton.y, reviewButton.width, reviewButton.height)
+  if reviewScreen then
+    g.rectangle('fill', reviewReplayButton.x, reviewReplayButton.y, reviewReplayButton.width, reviewReplayButton.height)
 
-  g.setColor(100, 140, 240)
-  g.printf(replayButton.word, replayButton.x, replayButton.y + replayButton.height * .33, replayButton.width / 2, 'center', 0, 2, 2)
-  g.printf(reviewButton.word, reviewButton.x, reviewButton.y + reviewButton.height * .33, reviewButton.width / 2, 'center', 0, 2, 2)
+    g.setColor(100, 140, 240)
+    g.printf(reviewReplayButton.word, reviewReplayButton.x, reviewReplayButton.y + reviewReplayButton.height * .33, reviewReplayButton.width / 2, 'center', 0, 2, 2)
+  else
+    g.rectangle('fill', replayButton.x, replayButton.y, replayButton.width, replayButton.height)
+    g.rectangle('fill', reviewButton.x, reviewButton.y, reviewButton.width, reviewButton.height)
+
+    g.setColor(100, 140, 240)
+    g.printf(replayButton.word, replayButton.x, replayButton.y + replayButton.height * .33, replayButton.width / 2, 'center', 0, 2, 2)
+    g.printf(reviewButton.word, reviewButton.x, reviewButton.y + reviewButton.height * .33, reviewButton.width / 2, 'center', 0, 2, 2)
+  end
 end
 
 function updateTimer(dt)
@@ -141,4 +177,20 @@ end
 
 function addPoints()
   totalScore = totalScore + 20
+end
+
+function addToPlayedWords(word)
+  if word == wordSet.synonym then
+    playedWords[round] = {
+      current = wordSet.currentWord,
+      selected = word,
+      match = true
+    }
+  else
+    playedWords[round] = {
+      current = wordSet.currentWord,
+      selected = word,
+      match = false
+    }
+  end
 end
