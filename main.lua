@@ -125,14 +125,7 @@ function findClickedButton(x, y)
   return false
 end
 
-function love.keypressed(key)
-   if key == 'r' then
-      startRound()
-   end
-end
-
--- TODO: make a button class?
-function drawButtons()
+function drawWordButtons()
   g.setColor(255, 255, 255)
   g.rectangle('fill', b1.x, b1.y, b1.width, b1.height)
   g.rectangle('fill', b2.x, b2.y, b2.width, b2.height)
