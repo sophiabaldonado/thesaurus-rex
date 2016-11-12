@@ -50,17 +50,20 @@ end
 
 function love.draw()
   if reviewScreen then
+    if length(keys(playedWords)) <= 0 then
+        g.printf("No Words to Review", 0, 100, screenWidth, 'center')
+    end
     for k, v in pairs(playedWords) do
-      local roundSummary = v.current.." "..v.selected
+      local roundSummary = v.current.." ------ "..v.selected
 
       if v.match == true then
         g.setColor(200, 200, 200, 150)
       else
         g.setColor(100, 100, 100, 150)
       end
-       g.printf(roundSummary, 0, 100 + (15 * k), screenWidth, 'center')
-       drawLostButtons()
+      g.printf(roundSummary, 0, 100 + (15 * k), screenWidth, 'center')
     end
+    drawLostButtons()
   elseif gameOver then
     g.setColor(100, 140, 240)
     g.printf("GAME OVER", -screenWidth / 2, 200, screenWidth, 'center', 0, 2, 2)
@@ -186,7 +189,7 @@ function addToPlayedWords(word)
       selected = word,
       match = true
     }
-  else
+  else -- should i display the correct synonym instead?
     playedWords[round] = {
       current = wordSet.currentWord,
       selected = word,
