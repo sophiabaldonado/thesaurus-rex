@@ -6,13 +6,13 @@ function button:new(word, position)
   o.height = 75
   o.word = word
 
-  o.x, o.y = buttonCoords(position)
+  o.x, o.y = self:buttonCoords(position)
   setmetatable(o, self)
   self.__index = self
   return o
 end
 
-function buttonCoords(position)
+function button:buttonCoords(position)
   if position == 'left' then
     x = (screenWidth * 0.33) - o.width / 2
     y = 400
