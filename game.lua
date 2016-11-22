@@ -64,7 +64,7 @@ function game:resetStats()
 end
 
 function game:resetTime()
-  self.time = 1
+  self.time = 15
 end
 
 function game:resetWords()
