@@ -8,14 +8,16 @@ function gameover:init()
   self:setupButtons()
 end
 
-function gameover:enter()
+function gameover:enter(current, words, total)
+  self.words = words
+  self.total = total
   self:setupButtons()
 end
 
 function gameover:setupButtons()
-  replay = button:new('Replay', 'right')
-  review = button:new('Review', 'left')
-  reviewReplay = button:new('Replay', 'bottom')
+  local replay = button:new('Replay', 'right')
+  local review = button:new('Review', 'left')
+  local reviewReplay = button:new('Replay', 'bottom')
 
   self.lostButtons = { replay, review }
   self.reviewButtons = { reviewReplay }
@@ -23,24 +25,33 @@ end
 
 function gameover:draw()
   if self.reviewScreen then
-    if length(keys(playedWords)) <= 0 then
-        g.printf('No Words to Review', 0, 100, screenWidth, 'center')
-    end
-    for k, v in pairs(playedWords) do
-      local roundSummary = v.current..' ------ '..v.selected
-
-      if v.match == true then
-        g.setColor(200, 200, 200, 150)
-      else
-        g.setColor(100, 100, 100, 150)
-      end
-      g.printf(roundSummary, 0, 100 + (15 * k), screenWidth, 'center')
-    end
+    self:drawReview()
   else
-    g.setColor(100, 140, 240)
-    g.printf('GAME OVER', -screenWidth / 2, 200, screenWidth, 'center', 0, 2, 2)
-    g.printf(totalScore, -screenWidth / 2, 250, screenWidth, 'center', 0, 2, 2)
+    self:drawGameOver()
   end
+end
+
+function gameover:drawReview()
+  if length(keys(self.words)) <= 0 then
+      g.printf('No Words to Review', 0, 100, screenWidth, 'center')
+      return
+  end
+  for k, v in pairs(self.words) do
+    local roundSummary = v.current..' ------ '..v.selected
+
+    if v.match == true then
+      g.setColor(200, 200, 200, 150)
+    else
+      g.setColor(100, 100, 100, 150)
+    end
+    g.printf(roundSummary, 0, 100 + (15 * k), screenWidth, 'center')
+  end
+end
+
+function gameover:drawGameOver()
+  g.setColor(100, 140, 240)
+  g.printf('GAME OVER', -screenWidth / 2, 200, screenWidth, 'center', 0, 2, 2)
+  g.printf(self.total, -screenWidth / 2, 250, screenWidth, 'center', 0, 2, 2)
 end
 
 function gameover:update()

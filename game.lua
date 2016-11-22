@@ -5,8 +5,8 @@ local wordSet = require 'wordset'
 local Gamestate = require 'lib.gamestate'
 
 function game:init()
-  totalScore = 0
-  playedWords = {}
+  self.totalScore = 0
+  self.playedWords = {}
   self.circle = g.newImage('/art/circle.png')
   self.circleWidth, self.circleHeight = self.circle:getDimensions()
   self.round = 0
@@ -23,7 +23,7 @@ function game:draw()
   self:drawCurrentWord()
 
   g.printf(string.format('%.1f', self.time), 50, 50, screenWidth, 'left', 0, 2, 2)
-  g.printf(totalScore, 50, 100, screenWidth, 'left', 0, 2, 2)
+  g.printf(self.totalScore, 50, 100, screenWidth, 'left', 0, 2, 2)
 end
 
 function game:update(dt)
@@ -58,9 +58,9 @@ function game:startRound()
 end
 
 function game:resetStats()
-  totalScore = 0
+  self.totalScore = 0
   self.round = 1
-  playedWords = {}
+  self.playedWords = {}
 end
 
 function game:resetTime()
@@ -69,9 +69,9 @@ end
 
 function game:resetWords()
   wordSet:init()
-  b1 = button:new(wordSet.wordOptions[1], 'left')
-  b2 = button:new(wordSet.wordOptions[2], 'right')
-  b3 = button:new(wordSet.wordOptions[3], 'bottom')
+  local b1 = button:new(wordSet.wordOptions[1], 'left')
+  local b2 = button:new(wordSet.wordOptions[2], 'right')
+  local b3 = button:new(wordSet.wordOptions[3], 'bottom')
   buttons = { b1, b2, b3 }
 end
 
@@ -79,7 +79,7 @@ function game:updateTimer(dt)
   if self.time > 0 then
     self.time = self.time - dt
   else
-    Gamestate.switch(states.gameover)
+    Gamestate.switch(states.gameover, self.playedWords, self.totalScore)
   end
 end
 
@@ -93,18 +93,18 @@ function game:adjustTime(amount)
 end
 
 function game:addPoints()
-  totalScore = totalScore + 20
+  self.totalScore = self.totalScore + 20
 end
 
 function game:addToPlayedWords(word)
   if word == wordSet.synonym then
-    playedWords[self.round] = {
+    self.playedWords[self.round] = {
       current = wordSet.currentWord,
       selected = word,
       match = true
     }
   else -- should i display the correct synonym instead?
-    playedWords[self.round] = {
+    self.playedWords[self.round] = {
       current = wordSet.currentWord,
       selected = word,
       match = false
