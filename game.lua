@@ -68,7 +68,7 @@ function game:resetTime()
 end
 
 function game:resetWords()
-  wordSet:init()
+  wordSet:new()
   local b1 = button:new(wordSet.wordOptions[1], 'left')
   local b2 = button:new(wordSet.wordOptions[2], 'right')
   local b3 = button:new(wordSet.wordOptions[3], 'bottom')

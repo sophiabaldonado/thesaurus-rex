@@ -1,7 +1,7 @@
 local words = require "wordList"
 local wordSet = {}
 
-function wordSet:init()
+function wordSet:new()
   self.currentWord = randomWord()
   self.synonym = self:currentSynonym()
   self.incorrectWords = {}
