@@ -2,6 +2,7 @@
 local util = require 'util'
 local button = require 'button'
 local game = require 'game'
+local menu = require 'menu'
 local gameover = require 'gameover'
 local Gamestate = require 'lib.gamestate'
 
@@ -11,9 +12,9 @@ function love.load()
   g = love.graphics
   screenWidth, screenHeight = g.getDimensions()
   buttons = {}
-  states = { game = game, gameover = gameover }
+  states = { game = game, gameover = gameover, menu = menu }
 
-  Gamestate.switch(states.game)
+  Gamestate.switch(states.menu)
 end
 
 function love.draw()
