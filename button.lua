@@ -1,9 +1,10 @@
 local button = {}
 
 local saveToFile = require 'lib.saveTableToFile'
-local config = table.load('configTest.lua')
+local config = {}
 
 function button:new(word, position)
+  config = table.load('configTest.lua')
   o = {}
   o.id = position
   o.width = config[position].width
