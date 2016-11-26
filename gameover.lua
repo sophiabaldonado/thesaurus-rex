@@ -8,9 +8,9 @@ function gameover:init()
   self:setupButtons()
 end
 
-function gameover:enter(current, words, total)
+function gameover:enter(current, words)
   self.words = words
-  self.total = total
+  self.total = totalScore
   self:setupButtons()
 end
 
@@ -18,7 +18,7 @@ function gameover:setupButtons()
   local replay = button:new('Replay', 'secondWord')
   local review = button:new('Review', 'firstWord')
   local reviewReplay = button:new('Replay', 'thirdWord')
-
+print("BLEH")
   self.lostButtons = { replay, review }
   self.reviewButtons = { reviewReplay }
 end
@@ -56,6 +56,12 @@ end
 
 function gameover:update()
   buttons = self.reviewScreen and self.reviewButtons or self.lostButtons
+end
+
+function gameover:keypressed(key)
+  if key == 'e' then
+    startEditor(self)
+  end
 end
 
 function gameover:mousepressed(x, y, button, istouch)

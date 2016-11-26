@@ -5,7 +5,7 @@ local wordSet = require 'wordset'
 local Gamestate = require 'lib.gamestate'
 
 function game:init()
-  self.totalScore = 0
+  totalScore = 0
   self.playedWords = {}
   self.circle = g.newImage('/art/circle.png')
   self.circleWidth, self.circleHeight = self.circle:getDimensions()
@@ -23,7 +23,7 @@ function game:draw()
   self:drawCurrentWord()
 
   g.printf(string.format('%.1f', self.time), 50, 50, screenWidth, 'left', 0, 2, 2)
-  g.printf(self.totalScore, 50, 100, screenWidth, 'left', 0, 2, 2)
+  g.printf(totalScore, 50, 100, screenWidth, 'left', 0, 2, 2)
 end
 
 function game:update(dt)
@@ -58,7 +58,7 @@ function game:startRound()
 end
 
 function game:resetStats()
-  self.totalScore = 0
+  totalScore = 0
   self.round = 1
   self.playedWords = {}
 end
@@ -79,7 +79,7 @@ function game:updateTimer(dt)
   if self.time > 0 then
     self.time = self.time - dt
   else
-    Gamestate.switch(states.gameover, self.playedWords, self.totalScore)
+    Gamestate.switch(states.gameover, self.playedWords, totalScore)
   end
 end
 
@@ -93,7 +93,7 @@ function game:adjustTime(amount)
 end
 
 function game:addPoints()
-  self.totalScore = self.totalScore + 20
+  totalScore = totalScore + 20
 end
 
 function game:addToPlayedWords(word)

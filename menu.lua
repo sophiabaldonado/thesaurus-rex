@@ -22,6 +22,12 @@ function menu:setupButtons()
   buttons = { button:new('Play', 'menuPlay') }
 end
 
+function menu:keypressed(key)
+  if key == 'e' then
+    startEditor(self)
+  end
+end
+
 function menu:mousepressed(x, y, button, istouch)
   local clickedButton = findClickedButton(x, y)
   if clickedButton and clickedButton.word == 'Play' then

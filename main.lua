@@ -26,8 +26,8 @@ function love.update(dt)
   --
 end
 
-function startEditor(self)
-  Gamestate.switch(states.editor, states[self])
+function startEditor(prevState)
+  Gamestate.switch(states.editor, prevState)
 end
 
 function findClickedButton(x, y)
