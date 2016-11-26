@@ -1,9 +1,11 @@
 local button = {}
 
+local config = require 'config'
+
 function button:new(word, position)
   o = {}
-  o.width = 170
-  o.height = 75
+  o.width = config[position].width
+  o.height = config[position].height
   o.word = word
 
   o.x, o.y = self:buttonCoords(position)
@@ -13,16 +15,9 @@ function button:new(word, position)
 end
 
 function button:buttonCoords(position)
-  if position == 'left' then
-    x = (screenWidth * 0.33) - o.width / 2
-    y = 400
-  elseif position == 'right' then
-    x = (screenWidth * 0.66) - o.width / 2
-    y = 400
-  elseif position == 'bottom' then
-    x = (screenWidth * 0.5) - o.width / 2
-    y = 500
-  end
+  local x = (screenWidth * config[position].xMult) - config[position].width / 2
+  local y = config[position].y
+
   return x, y
 end
 

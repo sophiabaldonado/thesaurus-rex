@@ -15,9 +15,9 @@ function gameover:enter(current, words, total)
 end
 
 function gameover:setupButtons()
-  local replay = button:new('Replay', 'right')
-  local review = button:new('Review', 'left')
-  local reviewReplay = button:new('Replay', 'bottom')
+  local replay = button:new('Replay', 'secondWord')
+  local review = button:new('Review', 'firstWord')
+  local reviewReplay = button:new('Replay', 'thirdWord')
 
   self.lostButtons = { replay, review }
   self.reviewButtons = { reviewReplay }

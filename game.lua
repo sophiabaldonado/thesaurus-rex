@@ -69,9 +69,9 @@ end
 
 function game:resetWords()
   wordSet:new()
-  local b1 = button:new(wordSet.wordOptions[1], 'left')
-  local b2 = button:new(wordSet.wordOptions[2], 'right')
-  local b3 = button:new(wordSet.wordOptions[3], 'bottom')
+  local b1 = button:new(wordSet.wordOptions[1], 'firstWord')
+  local b2 = button:new(wordSet.wordOptions[2], 'secondWord')
+  local b3 = button:new(wordSet.wordOptions[3], 'thirdWord')
   buttons = { b1, b2, b3 }
 end
 

@@ -19,7 +19,7 @@ function menu:draw()
 end
 
 function menu:setupButtons()
-  buttons = { button:new('Play', 'bottom') }
+  buttons = { button:new('Play', 'menuPlay') }
 end
 
 function menu:mousepressed(x, y, button, istouch)
