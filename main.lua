@@ -4,6 +4,7 @@ local button = require 'button'
 local game = require 'game'
 local menu = require 'menu'
 local gameover = require 'gameover'
+local editor = require 'editor'
 local Gamestate = require 'lib.gamestate'
 
 function love.load()
@@ -12,7 +13,7 @@ function love.load()
   g = love.graphics
   screenWidth, screenHeight = g.getDimensions()
   buttons = {}
-  states = { game = game, gameover = gameover, menu = menu }
+  states = { game = game, gameover = gameover, menu = menu, editor = editor }
 
   Gamestate.switch(states.menu)
 end
@@ -23,6 +24,10 @@ end
 
 function love.update(dt)
   --
+end
+
+function startEditor(self)
+  Gamestate.switch(states.editor, states[self])
 end
 
 function findClickedButton(x, y)
