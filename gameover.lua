@@ -8,17 +8,17 @@ function gameover:init()
   self:setupButtons()
 end
 
-function gameover:enter(current, words)
-  self.words = words
+function gameover:enter(current)
+  self.words = playedWords
   self.total = totalScore
   self:setupButtons()
 end
 
 function gameover:setupButtons()
-  local replay = button:new('Replay', 'secondWord')
-  local review = button:new('Review', 'firstWord')
-  local reviewReplay = button:new('Replay', 'thirdWord')
-print("BLEH")
+  local replay = button:new('Replay', 'gameOverReplay')
+  local review = button:new('Review', 'gameOverReview')
+  local reviewReplay = button:new('Replay', 'reviewReplay')
+
   self.lostButtons = { replay, review }
   self.reviewButtons = { reviewReplay }
 end

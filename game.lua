@@ -6,7 +6,7 @@ local Gamestate = require 'lib.gamestate'
 
 function game:init()
   totalScore = 0
-  self.playedWords = {}
+  playedWords = {}
   self.circle = g.newImage('/art/circle.png')
   self.circleWidth, self.circleHeight = self.circle:getDimensions()
   self.round = 0
@@ -60,7 +60,7 @@ end
 function game:resetStats()
   totalScore = 0
   self.round = 1
-  self.playedWords = {}
+  playedWords = {}
 end
 
 function game:resetTime()
@@ -79,13 +79,19 @@ function game:updateTimer(dt)
   if self.time > 0 then
     self.time = self.time - dt
   else
-    Gamestate.switch(states.gameover, self.playedWords, totalScore)
+    Gamestate.switch(states.gameover)
   end
 end
 
 function game:drawCurrentWord()
   g.setColor(100, 140, 240)
   g.printf(wordSet.currentWord, (screenWidth / 2) - 30, screenHeight / 4, screenWidth, 'left', 0, 2, 2)
+end
+
+function game:keypressed(key)
+  if key == 'e' then
+    startEditor(self)
+  end
 end
 
 function game:adjustTime(amount)
@@ -98,13 +104,13 @@ end
 
 function game:addToPlayedWords(word)
   if word == wordSet.synonym then
-    self.playedWords[self.round] = {
+    playedWords[self.round] = {
       current = wordSet.currentWord,
       selected = word,
       match = true
     }
   else -- should i display the correct synonym instead?
-    self.playedWords[self.round] = {
+    playedWords[self.round] = {
       current = wordSet.currentWord,
       selected = word,
       match = false

@@ -3,25 +3,23 @@ local button = {}
 local saveToFile = require 'lib.saveTableToFile'
 local config = {}
 
-function button:new(word, position)
-  config = table.load('configTest.lua')
+function button:new(word, buttonId)
+  config = table.load('buttonConfig.lua')
   o = {}
-  o.id = position
-  o.width = config[position].width
-  o.height = config[position].height
+  o.id = buttonId
+  o.width = config[buttonId].width
+  o.height = config[buttonId].height
   o.word = word
+  o.x, o.y = self:buttonCoords(buttonId)
 
-  o.x, o.y = self:buttonCoords(position)
-  print("boops", o.id, o.y)
   setmetatable(o, self)
   self.__index = self
   return o
 end
 
-function button:buttonCoords(position)
-  local x = (screenWidth * config[position].xMult) - config[position].width / 2
-  local y = config[position].y
-  -- print('coords',y)
+function button:buttonCoords(id)
+  local x = (screenWidth * config[id].xMult) - config[id].width / 2
+  local y = config[id].y
   return x, y
 end
 

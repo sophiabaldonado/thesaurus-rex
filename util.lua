@@ -38,4 +38,12 @@ function keys(t)
   return keys
 end
 
+function table.mergeTables(target, source)
+  for k,v in pairs(source) do
+    for i,v2 in pairs(v) do
+      target[k][i] = v[i]
+    end
+  end
+end
+
 return util
