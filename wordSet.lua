@@ -1,7 +1,7 @@
 local words = require "wordList"
-local wordSet = {}
+local currentRoundWords = {}
 
-function wordSet:new()
+function currentRoundWords:new()
   self.currentWord = randomWord()
   self.synonym = self:currentSynonym()
   self.incorrectWords = {}
@@ -18,7 +18,7 @@ function randomWord()
   return randomWord
 end
 
-function wordSet:currentSynonym()
+function currentRoundWords:currentSynonym()
   local currentWord = words[self.currentWord]
   local syns = keys(currentWord.synonyms)
   local randomSynonym = table.rando(syns)
@@ -26,13 +26,13 @@ function wordSet:currentSynonym()
   return randomSynonym
 end
 
-function wordSet:populateIncorrectWords(amount)
+function currentRoundWords:populateIncorrectWords(amount)
   for i = 1, amount do
     self:incorrectWord()
   end
 end
 
-function wordSet:incorrectWord()
+function currentRoundWords:incorrectWord()
   local word = randomWord()
   local currentWord = words[self.currentWord]
   -- check against currentWord, currentWord synonyms, and incorrectWords
@@ -45,9 +45,9 @@ function wordSet:incorrectWord()
   return word
 end
 
-function wordSet:shuffleOptions()
+function currentRoundWords:shuffleOptions()
   options = { self.synonym, self.incorrectWords[1], self.incorrectWords[2] }
   return shuffle(options)
 end
 
-return wordSet
+return currentRoundWords

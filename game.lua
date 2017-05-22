@@ -1,7 +1,7 @@
 local game = {}
 
 local button = require 'button'
-local wordSet = require 'wordset'
+local currentRoundWords = require 'currentRoundWords'
 local Gamestate = require 'lib.gamestate'
 
 function game:init()
@@ -35,7 +35,7 @@ end
 function game:mousepressed(x, y, button, istouch)
   local buttonClicked = findClickedButton(x, y)
   local time = timeToSubtract
-  if buttonClicked and buttonClicked.word == wordSet.synonym then
+  if buttonClicked and buttonClicked.word == currentRoundWords.synonym then
     self:addPoints()
     time = timeToAdd
   end
@@ -64,14 +64,14 @@ function game:resetTime()
 end
 
 function game:resetWords()
-  wordSet:new()
+  currentRoundWords:new()
   self:assignNewWordsToButtons()
 end
 
 function game:assignNewWordsToButtons()
-  local b1 = button:new(wordSet.wordOptions[1], 'firstWord')
-  local b2 = button:new(wordSet.wordOptions[2], 'secondWord')
-  local b3 = button:new(wordSet.wordOptions[3], 'thirdWord')
+  local b1 = button:new(currentRoundWords.wordOptions[1], 'firstWord')
+  local b2 = button:new(currentRoundWords.wordOptions[2], 'secondWord')
+  local b3 = button:new(currentRoundWords.wordOptions[3], 'thirdWord')
   buttons = { b1, b2, b3 }
 end
 
@@ -85,7 +85,7 @@ end
 
 function game:drawCurrentWord()
   g.setColor(100, 140, 240)
-  g.printf(wordSet.currentWord, (screenWidth / 2) - 30, screenHeight / 4, screenWidth, 'left', 0, 2, 2)
+  g.printf(currentRoundWords.currentWord, (screenWidth / 2) - 30, screenHeight / 4, screenWidth, 'left', 0, 2, 2)
 end
 
 function game:keypressed(key)
@@ -104,9 +104,9 @@ end
 
 function game:addToPlayedWords(word)
     playedWords[self.round] = {
-      current = wordSet.currentWord,
+      current = currentRoundWords.currentWord,
       selected = word,
-      match = word == wordSet.synonym
+      match = word == currentRoundWords.synonym
     }
 end
 
