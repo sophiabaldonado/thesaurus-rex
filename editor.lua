@@ -29,11 +29,11 @@ function editor:keypressed(key)
 end
 
 function editor:mousepressed(x, y, button, istouch)
-  local clickedButton = findClickedButton(x, y)
-  if clickedButton then
+  local buttonClicked = findClickedButton(x, y)
+  if buttonClicked then
     self.dragging = {
       active = true,
-      button = clickedButton,
+      button = buttonClicked,
       startX = x,
       startY = y
     }
@@ -68,7 +68,6 @@ function editor:exit()
 end
 
 function editor:save()
-  -- Write to config.lua
   table.mergeTables(self.config, self.newConfig)
   table.save(self.config, 'buttonConfig.lua')
 end
