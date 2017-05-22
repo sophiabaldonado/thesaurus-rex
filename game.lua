@@ -6,6 +6,8 @@ local Gamestate = require 'lib.gamestate'
 
 function game:init()
   totalScore = 0
+  timeToAdd = 5
+  timeToSubtract = -4
   playedWords = {}
   self.circle = g.newImage('/art/circle.png')
   self.circleWidth, self.circleHeight = self.circle:getDimensions()
@@ -31,21 +33,15 @@ function game:update(dt)
 end
 
 function game:mousepressed(x, y, button, istouch)
-  -- check if a button was pressed and if so check if it was the correct word
-  local clickedButton = findClickedButton(x, y)
-  local timeToAdd = 5
-  local timeToSubtract = -4
-  if clickedButton then
-    if clickedButton.word == wordSet.synonym then
-      print('correct!')
-      self:addPoints()
-      self:adjustTime(timeToAdd)
-      self:addToPlayedWords(clickedButton.word)
-    else
-      print('incorrect!')
-      self:adjustTime(timeToSubtract)
-      self:addToPlayedWords(clickedButton.word)
-    end
+  local buttonClicked = findClickedButton(x, y)
+  local time = timeToSubtract
+  if buttonClicked and buttonClicked.word == wordSet.synonym then
+    self:addPoints()
+    time = timeToAdd
+  end
+  if buttonClicked then
+    self:adjustTime(time)
+    self:addToPlayedWords(buttonClicked.word)
     self.round = self.round + 1
     self:resetWords()
   end
@@ -69,6 +65,10 @@ end
 
 function game:resetWords()
   wordSet:new()
+  self:assignNewWordsToButtons()
+end
+
+function game:assignNewWordsToButtons()
   local b1 = button:new(wordSet.wordOptions[1], 'firstWord')
   local b2 = button:new(wordSet.wordOptions[2], 'secondWord')
   local b3 = button:new(wordSet.wordOptions[3], 'thirdWord')
@@ -103,19 +103,11 @@ function game:addPoints()
 end
 
 function game:addToPlayedWords(word)
-  if word == wordSet.synonym then
     playedWords[self.round] = {
       current = wordSet.currentWord,
       selected = word,
-      match = true
+      match = word == wordSet.synonym
     }
-  else -- should i display the correct synonym instead?
-    playedWords[self.round] = {
-      current = wordSet.currentWord,
-      selected = word,
-      match = false
-    }
-  end
 end
 
 return game
