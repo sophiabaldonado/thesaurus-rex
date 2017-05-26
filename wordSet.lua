@@ -35,11 +35,9 @@ end
 function currentRoundWords:incorrectWord()
   local word = randomWord()
   local currentWord = words[self.currentWord]
-  -- check against currentWord, currentWord synonyms, and incorrectWords
   while self.currentWord == word or currentWord.synonyms[word] or table.includes(self.incorrectWords, word) do
     word = randomWord()
   end
-  -- add to incorrectWords
   table.insert(self.incorrectWords, word)
 
   return word
