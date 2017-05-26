@@ -32,3 +32,4 @@ words = {[[
 }
 ]
 ]]}
+return words

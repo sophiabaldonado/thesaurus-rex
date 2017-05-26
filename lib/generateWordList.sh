@@ -13,21 +13,11 @@ do
   echo "}," >> jsonWordList.lua
 done
 
-sleep 4s
 sed '$ s/.$//' jsonWordList.lua > tempfile.lua
 rm jsonWordList.lua; mv tempfile.lua jsonWordList.lua
 
-sleep 1s
 echo "]" >> jsonWordList.lua
 echo "]]}" >> jsonWordList.lua
+echo "return words" >> jsonWordList.lua
 
-echo "local json = require 'json'" > convertJsonToLua.lua
-
-cat jsonWordList.lua >> convertJsonToLua.lua
-sleep 1s
-
-echo "luaWords = json.decode(words[1])" >> convertJsonToLua.lua
-echo "return luaWords" >> convertJsonToLua.lua
-
-sleep 2s
 lua convertJsonToLua.lua
