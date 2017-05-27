@@ -1,4 +1,4 @@
-local words = require "wordList"
+local words = wordList
 local currentRoundWords = {}
 
 function currentRoundWords:new()
