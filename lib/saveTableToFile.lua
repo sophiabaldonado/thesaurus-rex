@@ -49,7 +49,11 @@ do
 		s = string.gsub( s,string.char(26),"\"..string.char(26)..\"" )
 		return s
 	end
-	saveDirectory = love.filesystem.getSaveDirectory()
+	if love then
+		saveDirectory = love.filesystem.getSaveDirectory()
+	else
+		saveDirectory = "."
+	end
 --// The Save Function
 function table.save(  tbl,filename )
 	filename = saveDirectory..'/'..filename
