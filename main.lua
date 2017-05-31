@@ -6,10 +6,12 @@ local button = require 'button'
 local editor = require 'editor'
 local gameover = require 'gameover'
 local Gamestate = require 'lib.gamestate'
+local wordListFormatter = require 'wordListFormatter'
 
 function love.load()
   Gamestate.registerEvents()
   setupButtonConfig()
+  setupSynonyms()
 
   g = love.graphics
   screenWidth, screenHeight = g.getDimensions()
@@ -98,5 +100,12 @@ function setupButtonConfig()
       }
     }
     table.save(defaultButtonConfig, 'buttonConfig.lua')
+  end
+
+  function setupSynonyms()
+    if (wordList == {}) then
+      local unformattedWords = table.load('lib/luaWords.lua')
+      wordListFormatter:format(unformattedWords)
+    end
   end
 end
