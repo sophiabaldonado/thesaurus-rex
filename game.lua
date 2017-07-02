@@ -5,7 +5,6 @@ local currentRoundWords = require 'currentRoundWords'
 local Gamestate = require 'lib.gamestate'
 
 function game:init()
-  wordList = {}
   totalScore = 0
   timeToAdd = 5
   timeToSubtract = -4
