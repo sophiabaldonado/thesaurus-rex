@@ -8,7 +8,7 @@ function wordListFormatter:format(unformattedWords)
     for word,v in pairs(v) do
       for key,val in pairs(v) do
         for kk,vv in pairs(val) do
-          if (kk == 'syn') then
+		  if kk == 'syn' and #vv > 0 then
             for i,syn in ipairs(vv) do
               if (self:isSingleWord(syn)) then
                 words[word] = {}
