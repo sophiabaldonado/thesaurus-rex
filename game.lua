@@ -35,15 +35,17 @@ end
 function game:mousepressed(x, y, button, istouch)
   local buttonClicked = findClickedButton(x, y)
   local time = timeToSubtract
-  if buttonClicked and buttonClicked.word == currentRoundWords.synonym then
-    self:addPoints()
-    time = timeToAdd
-  end
   if buttonClicked then
-    self:adjustTime(time)
-    self:addToPlayedWords(buttonClicked.word)
-    self.round = self.round + 1
-    self:resetWords()
+  	if buttonClicked and buttonClicked.word == currentRoundWords.synonym then
+    	self:addPoints()
+    	-- time = timeToAdd
+		self:resetWords()
+	else
+    	-- self:adjustTime(time)
+		buttonClicked:strike()
+	end
+	self.round = self.round + 1
+	self:addToPlayedWords(buttonClicked.word)
   end
 end
 
@@ -72,6 +74,7 @@ function game:assignNewWordsToButtons()
   local b1 = button:new(currentRoundWords.wordOptions[1], 'firstWord')
   local b2 = button:new(currentRoundWords.wordOptions[2], 'secondWord')
   local b3 = button:new(currentRoundWords.wordOptions[3], 'thirdWord')
+  -- print(b1)
   buttons = { b1, b2, b3 }
 end
 

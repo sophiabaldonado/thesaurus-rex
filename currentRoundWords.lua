@@ -20,6 +20,9 @@ end
 
 function currentRoundWords:currentSynonym()
   local currentWord = words[self.currentWord]
+  print('current word')
+  -- print(currentWord)
+  print(self.currentWord)
   local syns = keys(currentWord.synonyms)
   local randomSynonym = table.rando(syns)
 
@@ -45,6 +48,7 @@ end
 
 function currentRoundWords:shuffleOptions()
   options = { self.synonym, self.incorrectWords[1], self.incorrectWords[2] }
+  -- print(options[1], options[2], options[3])
   return shuffle(options)
 end
 
