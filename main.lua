@@ -43,12 +43,12 @@ function findClickedButton(x, y)
 end
 
 function drawButtons()
-  for k,v in pairs(buttons) do
-    g.setColor(255, 255, 255)
-    g.rectangle('fill', v.x, v.y, v.width, v.height)
+  for k,button in pairs(buttons) do
+    g.setColor(unpack(button.color))
+    g.rectangle('fill', button.x, button.y, button.width, button.height)
 
-    g.setColor(100, 140, 240)
-    g.printf(v.word, v.x, v.y + v.height * .33, v.width / 2, 'center', 0, 2, 2)
+    g.setColor(200, 140, 240)
+    g.printf(button.word, button.x, button.y + button.height * .33, button.width / 2, 'center', 0, 2, 2)
   end
 end
 
